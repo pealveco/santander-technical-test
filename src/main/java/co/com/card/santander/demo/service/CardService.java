@@ -33,7 +33,7 @@ public class CardService {
     }
 
     @Transactional
-    public Void issue(IssuedCardRequest issuedCardRequest) {
+    public Card issue(IssuedCardRequest issuedCardRequest) {
         Product product = productRepository.findById(issuedCardRequest.getProductId())
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
@@ -49,12 +49,13 @@ public class CardService {
         card.setCurrency(CurrencyCode.USD);
 
         for (int attempt = 0; attempt < 5; attempt++) {
-            card.setCardNumber(generate(product.getProductId()));
+            card.setCardNumber(generate(issuedCardRequest.getProductId()));
             try {
-                return cardRepository.saveAllAndFlush(card);
+                return cardRepository.saveAndFlush(card);//Cambiar a CardResponse con el DTO
             } catch (Exception e) {
                 throw new RuntimeException("Failed to issue card: " + e.getMessage(), e);
             }
         }
+        throw new RuntimeException("Failed to issue card after 5 attempts");
     }
 }

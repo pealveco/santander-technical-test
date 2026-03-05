@@ -34,9 +34,11 @@ public class Card {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private CardStatus status;
-    @Column(name = "blocked_at", nullable = false)
+    // Only set when the card is blocked.
+    @Column(name = "blocked_at", nullable = true)
     private LocalDate blockedAt;
-    @Column(name = "blocked_reason", nullable = false)
+    // Only set when the card is blocked.
+    @Column(name = "blocked_reason", nullable = true)
     private String blockedReason;
     @Column(name = "balance", nullable = false, precision = 19, scale = 4)
     private BigDecimal balance;

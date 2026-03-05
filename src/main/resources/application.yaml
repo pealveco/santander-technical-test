@@ -1,11 +1,16 @@
 spring:
   application:
     name: demo
-    dattasource:
-      url:jdbc:postgressql://localhost:5432/testdb
-      usernama:test
-      password:test
-    jpa:
-        hibernate:
-            ddl-auto: update
-        show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/testdb
+    username: test
+    password: test
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      mode: always
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
